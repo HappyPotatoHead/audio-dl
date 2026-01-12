@@ -164,11 +164,11 @@ Downloads are organised as:
 
 ```bash
 ~/Music/
-  ├── Artist_Name/
-  │   ├── Album_Name/
-  │   │   ├── song1.opus
-  │   │   ├── song2.opus
-  │   │   └── song3.opus
+  ├── Artist Name/
+  │   ├── Album Name/
+  │   │   ├── audio_one.opus
+  │   │   ├── audio_two.opus
+  │   │   └── audio_three.opus
 ```
 
 # Logs
