@@ -46,7 +46,7 @@ batch_download() {
     local success_count=0
     local fail_count=0
 
-    while IFS= read -r line || [ -n "$line$" ]; do
+    while IFS= read -r line || [ -n "$line" ]; do
         ((line_number++))
 
         [[ -z "$line" ]] && continue

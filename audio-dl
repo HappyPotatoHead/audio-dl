@@ -74,7 +74,7 @@ while [[ $# -gt 0 ]]; do
         shift
         ;;
     -n | --dry-run)
-        DRY_URL=true
+        DRY_RUN=true
         shift
         ;;
     -d | --debug)
