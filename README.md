@@ -2,6 +2,9 @@
 
 A [yt-dlp](https://github.com/yt-dlp/yt-dlp) wrapper for Youtube audio downloading. 
 
+[![GitHub release](https://img.shields.io/github/v/release/HappyPotatoHead/audio-dl)](https://github.com/HappyPotatoHead/audio-dl/releases)
+[![License](https://img.shields.io/github/license/yourusername/audio-dl)](LICENSE)
+
 ## Features
 - Download audio from Youtube with automatic organisation
     - Organised by Artist/Album structure
