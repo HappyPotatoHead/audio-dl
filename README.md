@@ -22,6 +22,15 @@ A [yt-dlp](https://github.com/yt-dlp/yt-dlp) wrapper for Youtube audio downloadi
 
 ## Installation
 
+### From Release
+
+```bash
+wget https://github.com/HappyPotatoHead/audio-dl/archive/refs/tags/v1.0.0.tar.gz
+tar -xzf v1.0.0.tar.gz
+cd audio-dl-1.0.0
+./install.sh
+```
+
 ```bash
 # Clone the repository
 git clone https://github.com/HappyPotatoHead/audio-dl.git
