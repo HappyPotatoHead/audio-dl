@@ -2,7 +2,7 @@
 
 # audio-dl - yt-dlp wrapper but for audio
 
-VERSION="1.0.0"
+VERSION="1.0.1"
 
 SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 UTILS_DIRECTORY="${SCRIPT_DIRECTORY}/utils"
