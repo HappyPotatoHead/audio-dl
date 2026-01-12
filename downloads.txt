@@ -1,0 +1,11 @@
+# Music downloads - lines starting with # are ignored
+# Format: URL ARTIST ALBUM
+
+# Format 1: Quoted 
+# URL "Artist" "Album"
+
+# Format 2: CSV
+# URL, Artist, Album
+
+# Format 3: Space separated
+# URL Artist Album

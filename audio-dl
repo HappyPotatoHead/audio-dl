@@ -1,0 +1,224 @@
+#!/bin/bash
+
+# audio-dl - yt-dlp wrapper but for audio
+
+VERSION="1.0.0"
+
+SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+UTILS_DIRECTORY="${SCRIPT_DIRECTORY}/utils"
+
+source "${UTILS_DIRECTORY}/logging.sh"
+source "${UTILS_DIRECTORY}/validation.sh"
+source "${UTILS_DIRECTORY}/config.sh"
+source "${UTILS_DIRECTORY}/download.sh"
+
+CONFIG_FILE="$HOME/.config/audio-dl/audio_dl.conf"
+
+POSSIBLE_CONFIG_PATHS=(
+    "$HOME/.config/audio-dl/audio_dl.conf"
+    "$(pwd)/audio_dl.conf"
+    "/etc/audio-dl/audio_dl.conf"
+)
+
+for config_path in "${POSSIBLE_CONFIG_PATHS[@]}"; do
+    if [[ -f "$config_path" ]]; then
+        CONFIG_FILE="$config_path"
+        break
+    fi
+done
+
+show_help() {
+    cat "${UTILS_DIRECTORY}/HELP.txt"
+}
+
+show_version() {
+    echo "audio-dl version ${VERSION}"
+    yt-dlp --version 2>/dev/null | head -1 || echo "yt-dlp: not installed"
+}
+
+URL=""
+ARTIST=""
+ALBUM=""
+RUN_FORMAT=""
+DRY_RUN=false
+DEBUG=false
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+    -u | --url)
+        URL="$2"
+        shift 2
+        ;;
+    -a | --artist)
+        ARTIST="$2"
+        shift 2
+        ;;
+    -b | --album)
+        ALBUM="$2"
+        shift 2
+        ;;
+    -f | --format)
+        RUN_FORMAT="$2"
+        shift 2
+        ;;
+    -t | --text-file)
+        TEXT_FILE="$2"
+        shift 2
+        ;;
+    -v | --verbose)
+        VERBOSE=true
+        shift
+        ;;
+    -q | --quiet)
+        QUIET=true
+        shift
+        ;;
+    -n | --dry-run)
+        DRY_URL=true
+        shift
+        ;;
+    -d | --debug)
+        DEBUG=true
+        VERBOSE=true
+        shift
+        ;;
+    --show-config)
+        show_config "$CONFIG_FILE"
+        exit 0
+        ;;
+    --reset-config)
+        reset_config "$CONFIG_FILE"
+        exit 0
+        ;;
+    --set-config)
+        if [ -z "$2" ] || [ -z "$3" ]; then
+            log_error "Usage: audio-dl --set_config KEY VALUE"
+            exit 1
+        fi
+        load_config "$CONFIG_FILE"
+        set_config "$CONFIG_FILE" "$2" "$3"
+        exit 0
+        ;;
+    --get-config)
+        if [ -z "$2" ]; then
+            log_error "Usage: audio-dl --get_config KEY"
+            exit 1
+        fi
+        load_config "$CONFIG_FILE"
+        get_config "$CONFIG_FILE" "$2"
+        exit 0
+        ;;
+    --edit-config)
+        edit_config "$CONFIG_FILE"
+        exit 0
+        ;;
+    --version)
+        show_version
+        exit 0
+        ;;
+    -h | --help)
+        show_help
+        exit 0
+        ;;
+    -*)
+        echo "Unknown option: $1"
+        show_help
+        exit 1
+        ;;
+    *)
+        if [ -z "$URL" ]; then
+            URL="$1"
+        elif [ -z "$ARTIST" ]; then
+            ARTIST="$1"
+        elif [ -z "$ALBUM" ]; then
+            ALBUM="$1"
+        fi
+        shift
+        ;;
+    esac
+done
+
+# VERBOSE
+main() {
+    log_verbose "audio-dl version ${VERSION}"
+    log_verbose "Starting execution"
+
+    log_verbose "Checking dependencies"
+    check_dependencies || exit 1
+
+    check_platform
+    log_verbose "Running on: ${PLATFORM}"
+
+    log_verbose "Loading configuration form: ${CONFIG_FILE}"
+    load_config "$CONFIG_FILE"
+
+    if [ -n "$TEXT_FILE" ]; then
+        log_verbose "Batch mode: processing $TEXT_FILE"
+
+        if [ -n "$URL" ] || [ -n "$ARTIST" ] || [ -n "$ALBUM" ]; then
+            log_warning "Ignoring -u/-a/-b flags (using text file instead)"
+        fi
+
+        batch_download "$TEXT_FILE"
+        exit $?
+    fi
+
+    [ -z "$URL" ] && read -p "Youtube URL: " URL
+    if [ -z "$URL" ]; then
+        log_error "Error: URL is required"
+        exit 1
+    fi
+
+    log_verbose "Validating URL"
+    validate_url "$URL" || exit 1
+
+    [ -z "$ARTIST" ] && read -p "Artist (unknown_artist): " INPUT_ARTIST
+    ARTIST="${ARTIST:-${INPUT_ARTIST:-unknown_artist}}"
+
+    [ -z "$ALBUM" ] && read -p "Album (unknown_album): " INPUT_ALBUM
+    ALBUM="${ALBUM:-${INPUT_ALBUM:-unknown_album}}"
+
+    log_verbose "Sanitise filenames"
+    ARTIST=$(sanitise "$ARTIST")
+    ALBUM=$(sanitise "$ALBUM")
+
+    log_verbose "Artist: ${ARTIST}"
+    log_verbose "Album: ${ALBUM}"
+
+    FORMAT="${RUN_FORMAT:-$FORMAT}"
+    log_verbose "Format: ${FORMAT}"
+
+    THUMB_OPTS=""
+    [ "$PREFER_THUMBNAIL" = "true" ] && THUMB_OPTS="--embed-thumbnail"
+
+    DESTINATION_DIRECTORY="${BASE_DIRECTORY}/${ARTIST}/${ALBUM}"
+    log_verbose "Destination: ${DESTINATION_DIRECTORY}"
+
+    if [ "$DRY_RUN" = true ]; then
+        log "=== DRY RUN MODE ==="
+        log "Would download to: ${DESTINATION_DIRECTORY}"
+        log "Format: ${FORMAT}"
+        log "URL: ${URL}"
+        log "Thumbnail: ${PREFER_THUMBNAIL}"
+        log "=== END DRY RUN ==="
+        exit 0
+    fi
+
+    check_disk_space "$BASE_DIRECTORY"
+
+    mkdir -p "$DESTINATION_DIRECTORY"
+
+    log "Downloading"
+    log_to_file "Starting download: ${URL} to ${DESTINATION_DIRECTORY}"
+
+    if attempt_download "$URL" "$DESTINATION_DIRECTORY" "$FORMAT" "$THUMB_OPTS" "$DEBUG"; then
+        log "Download complete!"
+        log_to_file "Download successful: ${URL}"
+    else
+        log_error "Download failed after retries"
+        log_to_file "Download failed: ${URL}"
+        exit 1
+    fi
+}
+
+main "$@"

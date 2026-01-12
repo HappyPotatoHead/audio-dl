@@ -1,0 +1,88 @@
+audio-dl - YouTube Music Downloader
+
+USAGE:
+    audio-dl [OPTIONS] [URL] [ARTIST] [ALBUM]
+
+DESCRIPTION:
+    Download audio from YouTube with yt-dlp and organise it by artist and album.
+    On first run, you'll be prompted to configure default settings.
+
+OPTIONS:
+    -u, --url       URL          YouTube URL
+    -a, --artist    ARTIST       Artist name
+    -b, --album     ALBUM        Album name
+    -f, --format    FORMAT       Audio format: mp3, opus, flac, m4a, aac
+    -t, --text-file TEXT_FILE    File containing the link, artist, and album
+    -v, --verbose   Show detailed output
+    -q, --quiet     Suppress non-error messages
+    -n, --dry-run   Show what will be downloaded without downloading anything
+    -d, --debug     yt-dlp verbose mode
+    --show-config   Show the stored configurations
+    --reset-config  Reset configurations to defaults
+    --set-config    Edit specific configuration argument
+    --get-config    Retrieve specific configurations
+    --edit-config   Edit configurations
+    --version       Show version of this package
+    -h, --help      Show this help message
+
+EXAMPLES:
+    # Interactive mode (prompts for everything)
+    audio-dl
+
+    # Provide URL only (prompts for artist/album)
+    audio-dl "URL"
+
+    # No flags
+    audio-dl "URL" ARTIST" "ALBUM"
+
+    # With flags
+    audio-dl -u "URL" -a "ARTIST" -b "ALBUM"
+
+    # Download as FLAC format
+    audio-dl -u "URL" -a "ARTIST" -b "ALBUM" -f flac
+
+BATCH DOWNLOAD:
+    File format:
+        Quoted: "URL" "ARTIST" "ALBUM"
+        CSV: URL, ARTIST, ALBUM
+        Space Separated: URL, RickAstley, NeverGonnaGiveYouUp
+    
+    # Comments start with #
+    Empty lines and comments are ignored. 
+
+CONFIGURATION:
+    Config file (default): ~/.config/audio/audio_dl.conf
+    Config file can also be saved into the local folder
+    
+    First run will prompt for:
+    - Base audio directory (default: ~/Music)
+    - Default audio format (default: opus)
+    - Thumbnail embedding preference (default: true)
+
+    Edit the config file directly to change settings later.
+
+FILE ORGANIZATION:
+    Downloads are saved to: BASE_DIRECTORY/ARTIST/ALBUM/
+    
+    Example:
+        ~/audio/Rick Astley/Whenever You Need Somebody/Never Gonna Give You Up.opus
+
+REQUIREMENTS:
+    - yt-dlp (install: pip install yt-dlp)
+    - ffmpeg (recommended for format conversion)
+
+TROUBLESHOOTING:
+    "yt-dlp: command not found"
+        Install with: pip install yt-dlp
+
+    "Download failed"
+        - Check internet connection
+        - Verify YouTube URL is valid
+        - Try with -v flag for verbose output
+
+    "Format conversion failed"
+        Install ffmpeg for audio format conversion
+
+MORE INFO:
+    GitHub: https://github.com/HappyPotatoHead/audio-dl
+    Issues: https://github.com/HappyPotatoHead/audio-dl/issues

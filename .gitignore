@@ -1,0 +1,36 @@
+# Configuration files
+*.conf
+.config/
+
+# Log files
+*.log
+
+# Backup files
+*.bak
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+.directory
+
+# Test downloads
+test/
+test_downloads/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+
+# Temporary files
+*.tmp
+*.temp
+.*.tmp
+.*.temp
