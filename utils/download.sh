@@ -62,11 +62,16 @@ batch_download() {
             log_verbose "Line $line_number: Parsed as quoted format"
 
         # Format 2: URL, Artist, Album (CSV)
-        elif [[ "$line" =~ , ]]; then
+        elif [[ $(awk -F',' '{print NF}' <<<"$line") -eq 3 ]]; then
             IFS=',' read -r url artist album <<<"$line"
-            url=$(echo "$url" | xargs)
-            artist=$(echo "$artist" | xargs)
-            album=$(echo "$album" | xargs)
+            url="${url#"${url%%[![:space:]]*}"}"
+            url="${url%"${url##*[![:space:]]}"}"
+
+            artist="${artist#"${artist%%[![:space:]]*}"}"
+            artist="${artist%"${artist##*[![:space:]]}"}"
+
+            album="${album#"${album%%[![:space:]]*}"}"
+            album="${album%"${album##*[![:space:]]}"}"
             log_verbose "Line $line_number: Parsed as CSV format"
 
         # Format 3: URL Artist Album (space-separated, album can have spaces)

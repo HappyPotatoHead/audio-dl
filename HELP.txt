@@ -1,5 +1,3 @@
-audio-dl - YouTube Music Downloader
-
 USAGE:
     audio-dl [OPTIONS] [URL] [ARTIST] [ALBUM]
 
@@ -9,8 +7,8 @@ DESCRIPTION:
 
 OPTIONS:
     -u, --url       URL          YouTube URL
-    -a, --artist    ARTIST       Artist name
-    -b, --album     ALBUM        Album name
+    -a, --artist    ARTIST       Creator/Author
+    -b, --album     ALBUM        Collection/Series
     -f, --format    FORMAT       Audio format: mp3, opus, flac, m4a, aac
     -t, --text-file TEXT_FILE    File containing the link, artist, and album
     -v, --verbose   Show detailed output
@@ -33,7 +31,7 @@ EXAMPLES:
     audio-dl "URL"
 
     # No flags
-    audio-dl "URL" ARTIST" "ALBUM"
+    audio-dl "URL" "ARTIST" "ALBUM"
 
     # With flags
     audio-dl -u "URL" -a "ARTIST" -b "ALBUM"
@@ -45,7 +43,7 @@ BATCH DOWNLOAD:
     File format:
         Quoted: "URL" "ARTIST" "ALBUM"
         CSV: URL, ARTIST, ALBUM
-        Space Separated: URL, RickAstley, NeverGonnaGiveYouUp
+        Space Separated: URL, NASA, Voyager_Golden_Record
     
     # Comments start with #
     Empty lines and comments are ignored. 
@@ -65,7 +63,7 @@ FILE ORGANIZATION:
     Downloads are saved to: BASE_DIRECTORY/ARTIST/ALBUM/
     
     Example:
-        ~/audio/Rick Astley/Whenever You Need Somebody/Never Gonna Give You Up.opus
+        ~/Music/NASA/Voyager_Golden_Record/Voyager_Golden_Record.opus
 
 REQUIREMENTS:
     - yt-dlp (install: pip install yt-dlp)

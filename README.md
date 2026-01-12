@@ -6,8 +6,8 @@ A [yt-dlp](https://github.com/yt-dlp/yt-dlp) wrapper for Youtube audio downloadi
 [![License](https://img.shields.io/github/license/HappyPotatoHead/audio-dl)](LICENSE)
 
 ## Features
-- Download audio from Youtube with automatic organisation
-    - Organised by Artist/Album structure
+- Automated media archival with hierarchical directory structuring  
+    - Organised by Artist (Creator/Author) / Album (Collection/Series) structure
 - Embed thumbnails as album art
 - Automatic retry on failed downloads
 - Multiple audio format support (see [yt-dlp](https://github.com/yt-dlp/yt-dlp))
@@ -17,6 +17,7 @@ A [yt-dlp](https://github.com/yt-dlp/yt-dlp) wrapper for Youtube audio downloadi
 - Cross-platform (Linux, macOS)
 
 ## Requirements
+
 - **[yt-dlp](https://github.com/yt-dlp/yt-dlp)**
 - **ffmpeg** (recommended for format conversion)
 
@@ -63,13 +64,13 @@ Basic Usage
 audio-dl
 
 # With the URL (will prompt for artist and album)
-audio-dl "https://youtube.com/..."
+audio-dl "VIDEO_URL"
 
 # With all arguments
-audio-dl "https://youtube.com/" "Artist name" "Album name"
+audio-dl "VIDEO_URL" "Artist name" "Album name"
 
 # Using flags
-audio-dl -u "https://youtube.com/" -a "Artist name" -b "Album name"
+audio-dl -u "VIDEO_URL" -a "Artist name" -b "Album name"
 ```
 
 Batch Download
@@ -82,7 +83,7 @@ Batch Download
 URL, ARTIST, ALBUM
 
 # Space Separated
-URL, RickAstley, NeverGonnaGiveYouUp
+URL, NASA, Voyager_Golden_Record
 
 # Comments start with #
 # Empty lines and comments are ignored.
@@ -97,8 +98,8 @@ Options
 ```bash
 OPTIONS:
     -u, --url       URL          YouTube URL
-    -a, --artist    ARTIST       Artist name
-    -b, --album     ALBUM        Album name
+    -a, --artist    ARTIST       Creator/Author
+    -b, --album     ALBUM        Collection/Series
     -f, --format    FORMAT       Audio format: mp3, opus, flac, m4a, aac
     -t, --text-file TEXT_FILE    File containing the link, artist, and album
     -v, --verbose   Show detailed output
@@ -118,16 +119,16 @@ Examples
 
 ```bash
 # Download with specific format
-audio-dl -u "https://youtube.com/..." -a "Artist name" -b "Album name" -f flac
+audio-dl -u "VIDEO_URL" -a "Artist name" -b "Album name" -f flac
 
 # Dry run to see what would be downloaded
-audio-dl --dry-run -u "https://youtube.com/..."
+audio-dl --dry-run -u "VIDEO_URL"
 
 # Verbose mode for debugging
-audio-dl -v -u "https://youtube.com/..." -a "Artist name" -b "Album name"
+audio-dl -v -u "VIDEO_URL" -a "Artist name" -b "Album name"
 
 # Quiet mode for scripts
-audio-dl -q -u "https://youtube.com/..." -a "Artist name" -b "Album name"
+audio-dl -q -u "VIDEO_URL" -a "Artist name" -b "Album name"
 ```
 
 ## Configuration
@@ -185,6 +186,8 @@ Logs are saved to: `~/.config/audio-dl/audio-dl.log`
 
 # Troubleshooting
 
+Note: If downloads fail consistently, ensure you have the latest version of `yt-dlp` installed, as platforms frequently update their delivery protocols.
+
 ## Missing Dependencies
 
 `yt-dlp: command not found`
@@ -197,6 +200,7 @@ Install `yt-dlp`. See [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 - Arch Linux: `sudo pacman -S ffmpeg`
 - macOS: `brew intall ffmpeg`
 - Windows: Download from [ffmpeg](https://www.ffmpeg.org/)
+
 ##  Downloads Failing
 
 - Check Internet connection
@@ -231,10 +235,10 @@ audio-dl/
 
 ```bash
 # Run with dry-run to test without downloading
-./audio-dl --dry-run -u "https://youtube.com/..." -a "Test" -b "Test"
+./audio-dl --dry-run -u "VIDEO_URL" -a "Test" -b "Test"
 
 # Run with verbose for detailed output
-./audio-dl -v -u "https://youtube.com/..." -a "Test" -b "Test"
+./audio-dl -v -u "VIDEO_URL" -a "Test" -b "Test"
 ```
 
 # Contributing
@@ -249,6 +253,12 @@ Contributions are welcome! Please feel free to submit a pull request.
 # License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+# Disclaimer
+
+This tool is a wrapper for yt-dlp and is intended for personal archival and educational purposes only. The author of audio-dl does not encourage or condone the use of this software to download copyrighted material in violation of any platform's Terms of Service or local copyright laws. Use this tool responsibly and at your own risk.
+
+This tool is intended to facilitate the exercise of rights under **Fair Use** for purposes such as criticism, comment, news reporting, teaching, and research. 
 
 # Acknowledgements
 

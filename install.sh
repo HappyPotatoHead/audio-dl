@@ -32,8 +32,12 @@ cp -r utils/* "$UTILS_DIR/"
 echo "Installing help file"
 cp HELP.txt "$UTILS_DIR/"
 
-sed -i.bak "s|^UTILS_DIRECTORY=.*|UTILS_DIRECTORY=\"$UTILS_DIR\"|" "$INSTALL_DIR/$SCRIPT_NAME"
-rm -f "$INSTALL_DIR/$SCRIPT_NAME.bak"
+sed "s|^UTILS_DIRECTORY=.*|UTILS_DIRECTORY=\"$UTILS_DIR\"|" "$INSTALL_DIR/$SCRIPT_NAME" >"$INSTALL_DIR/$SCRIPT_NAME.tmp"
+mv "$INSTALL_DIR/$SCRIPT_NAME.tmp" "$INSTALL_DIR/$SCRIPT_NAME"
+
+chmod +x "$INSTALL_DIR/$SCRIPT_NAME"
+# sed -i.bak "s|^UTILS_DIRECTORY=.*|UTILS_DIRECTORY=\"$UTILS_DIR\"|" "$INSTALL_DIR/$SCRIPT_NAME"
+# rm -f "$INSTALL_DIR/$SCRIPT_NAME.bak"
 
 echo ""
 echo -e "Installation complete!${NC}"
