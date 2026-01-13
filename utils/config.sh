@@ -166,6 +166,8 @@ update_config_value() {
         return 1
     fi
 
-    sed -i.bak "s|^${key}=.*|${key}=\"${value}\"|" "$config_file"
+    sed "s|^${key}=.*|${key}=\"${value}\"|" "$config_file" > "$config_file.tmp"
+    mv "$config_file.tmp" "$config_file"
+
     rm -f "${config_file}.bak"
 }
