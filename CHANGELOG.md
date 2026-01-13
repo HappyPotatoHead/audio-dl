@@ -4,7 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## 1.0.1 - 2025-01-12
+## [1.0.3] - 2025-01-13
+- Minor compatibility fixes
+    - Fixed `sed` line when updating config
+
+## [1.0.2] - 2025-01-12
+- Minor compatibility fixes
+    - Fixed csv parsing
+    - Fixed `sed -i` for macOS compatibility
+
+## [1.0.1] - 2025-01-12
 - Minor bug fixes
     - Fixed dry run
     - Fixed batch download
