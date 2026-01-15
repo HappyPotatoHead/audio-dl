@@ -1,6 +1,6 @@
 # audio-dl
 
-A [yt-dlp](https://github.com/yt-dlp/yt-dlp) wrapper for Youtube audio downloading. 
+A [yt-dlp](https://github.com/yt-dlp/yt-dlp) wrapper for Youtube audio archiving. 
 
 A small CLI tool I built because I wanted clean, repeatable audio archives without all the manual labour.
 
