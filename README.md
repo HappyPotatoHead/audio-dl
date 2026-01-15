@@ -1,6 +1,7 @@
 # audio-dl
 
 A [yt-dlp](https://github.com/yt-dlp/yt-dlp) wrapper for Youtube audio downloading. 
+A small CLI tool I built because I wanted clean, repeatable audio archives without all the manual labour.
 
 [![GitHub release](https://img.shields.io/github/v/release/HappyPotatoHead/audio-dl)](https://github.com/HappyPotatoHead/audio-dl/releases)
 [![License](https://img.shields.io/github/license/HappyPotatoHead/audio-dl)](LICENSE)
